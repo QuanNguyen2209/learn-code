@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 
 type Props = {};
 
-function Navbar() {
+type NavbarProps = {
+  duLieu: number;
+};
+
+function Navbar({ duLieu }: NavbarProps) {
   useEffect(() => {
     console.log("Navbar component did mount");
   }, []);
@@ -11,23 +15,30 @@ function Navbar() {
       console.log("Navbar component will unmount");
     };
   }, []);
+  useEffect(() => {
+    console.log("Navbar component did update");
+  });
   return (
     <nav>
-      <h1>Navbar</h1>
+      <h1>Navbar {duLieu}</h1>
     </nav>
   );
 }
 
 export default function Index({}: Props) {
   const [isShowNavbar, setIsShowNavbar] = useState<boolean>(true);
+  const [navBarData, setNavBarData] = useState<number>(0);
   useEffect(() => {
     console.log("isShowNavbar state has changed");
   }, [isShowNavbar]);
 
   return (
     <div>
-      {isShowNavbar && <Navbar />}
+      {isShowNavbar && <Navbar duLieu={navBarData} />}
       <button onClick={() => setIsShowNavbar(!isShowNavbar)}>Click me</button>
+      <button onClick={() => setNavBarData(navBarData + 1)}>
+        Cấp dữ liệu cho navbar
+      </button>
     </div>
   );
 }
