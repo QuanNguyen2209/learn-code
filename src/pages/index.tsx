@@ -15,30 +15,74 @@ function Navbar({ duLieu }: NavbarProps) {
       console.log("Navbar component will unmount");
     };
   }, []);
-  useEffect(() => {
-    console.log("Navbar component did update");
-  });
+  useEffect(() => {});
   return (
     <nav>
       <h1>Navbar {duLieu}</h1>
     </nav>
   );
 }
+type EmployeeType = {
+  name: string;
+  age: number;
+  company?: string;
+  position: string;
+  gender: string;
+};
 
 export default function Index({}: Props) {
   const [isShowNavbar, setIsShowNavbar] = useState<boolean>(true);
   const [navBarData, setNavBarData] = useState<number>(0);
+  const [employeeData, setEmployeeData] = useState<EmployeeType>({
+    name: "Nguyen Van A",
+    age: 20,
+    company: "FPT",
+    position: "Dev",
+    gender: "Nam",
+  });
+
   useEffect(() => {
     console.log("isShowNavbar state has changed");
   }, [isShowNavbar]);
 
+  const handleEmployeeData = () => {
+    setEmployeeData({
+      ...employeeData,
+      name: "Nguyen Van B",
+    });
+  };
+
+  const handleRemoveEmployeeProperty = () => {
+    const { company, ...rest } = employeeData;
+    console.log(rest);
+    setEmployeeData(rest);
+  };
   return (
     <div>
       {isShowNavbar && <Navbar duLieu={navBarData} />}
       <button onClick={() => setIsShowNavbar(!isShowNavbar)}>Click me</button>
-      <button onClick={() => setNavBarData(navBarData + 1)}>
-        Cấp dữ liệu cho navbar
-      </button>
+      <h1 className="font-mono text-2xl text-red-400">{employeeData.name}</h1>
+      <h2 className="font-mono text-xl text-green-500">{employeeData.age}</h2>
+      <h2 className="font-mono text-xl text-green-500">
+        {employeeData.gender}
+      </h2>
+      <h2 className="font-mono text-xl text-green-500">
+        {employeeData.position}
+      </h2>
+      <h2 className="font-mono text-xl text-green-500">
+        {employeeData.company}
+      </h2>
+      <div className="flex flex-col items-start">
+        <button onClick={() => handleEmployeeData()}>
+          change employee data
+        </button>
+        <button onClick={() => handleRemoveEmployeeProperty()}>
+          remove company property
+        </button>
+        <button onClick={() => setNavBarData(navBarData + 1)}>
+          Cấp dữ liệu cho navbar
+        </button>
+      </div>
     </div>
   );
 }
